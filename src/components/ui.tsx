@@ -1,6 +1,7 @@
 import { useRef, type ReactNode, type MouseEvent } from "react";
 import { useMagnetic } from "../hooks/useMagnetic";
 import { lenis } from "../lib/lenis";
+import { links } from "../data/content";
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
 
@@ -71,6 +72,22 @@ export function SectionHead({ label, title, aside }: { label: string; title: Rea
         {aside && <p data-reveal data-delay="200">{aside}</p>}
       </div>
     </div>
+  );
+}
+
+const linkRe = new RegExp(`(${Object.keys(links).map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
+
+/** Renders text with any known phrase (data/content `links`) turned into an external link. */
+export function Linkify({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(linkRe).map((part, i) => {
+        const l = links[part];
+        return l
+          ? <a key={i} className="ab-inline-link" href={l.href} target="_blank" rel="noreferrer" data-cursor="link" data-note={l.note}>{part}</a>
+          : part;
+      })}
+    </>
   );
 }
 

@@ -10,6 +10,12 @@ export const site = {
   resume: "/akersh-bhaskar-resume.pdf", // TODO: drop the PDF into /public
 };
 
+/** Phrases that become links wherever they appear in site copy (see <Linkify>). note = cursor note. */
+export const links: Record<string, { href: string; note: string }> = {
+  "sector1.in": { href: "https://sector1.in", note: "visit the store" },
+  "Bytekat Technologies": { href: "https://bytekat.com", note: "where I work" },
+};
+
 export const nav = [
   { label: "Work", href: "#work" },
   { label: "About", href: "#about" },

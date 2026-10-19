@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type RefObject } from "react";
 import { projects, type Project, type Shot } from "../data/content";
-import { Button, Label, SectionHead, Tag, cx } from "./ui";
+import { Button, Label, Linkify, SectionHead, Tag, cx } from "./ui";
 
 /** Scroll-snap carousel: swipe/trackpad natively, buttons, dots and arrow keys. */
 function Gallery({ shots, title }: { shots: Shot[]; title: string }) {
@@ -74,7 +74,9 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
       const t = [...el.querySelectorAll<HTMLElement>(".ab-tag")].find((x) => x.textContent?.trim() === tag);
       if (!t) return setPaths(null);
       const b = el.getBoundingClientRect(), r = t.getBoundingClientRect(), n = nt.getBoundingClientRect();
-      const cx = r.left - b.left + r.width / 2, cy = r.top - b.top + r.height / 2, rx = r.width / 2 + 15, ry = r.height / 2 + 11;
+      // Tighter loop on narrow cards so a ring around the first tag stays inside the page gutter
+      const narrow = b.width < 560, cx = r.left - b.left + r.width / 2, cy = r.top - b.top + r.height / 2;
+      const rx = r.width / 2 + (narrow ? 7 : 15), ry = r.height / 2 + (narrow ? 7 : 11);
       // ~1.1 turns with a little drift, like a pen that overshoots
       const a0 = -2.2 + j(1) * 0.4, pts: string[] = [];
       for (let i = 0; i <= 44; i++) {
@@ -105,7 +107,9 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
         for (let i = 0; i <= 10; i++) { const a = -Math.PI / 2 + 0.12 + i * Math.PI / 5, rr = (i % 2 ? R * 0.45 : R) * (1 + j(i + 20) * 0.08); sp.push(`${(sxc + Math.cos(a) * rr).toFixed(1)},${(syc + Math.sin(a) * rr).toFixed(1)}`); }
         star = `M${sp.join(" L")}`;
       }
-      setPaths({ ring: `M${pts.join(" L")}`, arrow: `M${sx.toFixed(1)},${sy.toFixed(1)} Q${qx.toFixed(1)},${qy.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`, head, under, star });
+      // On narrow cards the note wraps under the button and any arrow would cut through tags, so skip it there
+      const arrow = narrow ? "" : `M${sx.toFixed(1)},${sy.toFixed(1)} Q${qx.toFixed(1)},${qy.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`;
+      setPaths({ ring: `M${pts.join(" L")}`, arrow, head: narrow ? "" : head, under, star });
     };
     measure();
     const ro = new ResizeObserver(measure); ro.observe(el);
@@ -144,8 +148,8 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
       {paths.under && <path className="ab-doodle-under" d={paths.under} pathLength={1} />}
       {paths.star && <path className="ab-doodle-star" d={paths.star} pathLength={1} />}
       <path className="ab-doodle-ring" d={paths.ring} pathLength={1} />
-      <path className="ab-doodle-arrow" d={paths.arrow} pathLength={1} />
-      <path className="ab-doodle-head" d={paths.head} pathLength={1} />
+      {paths.arrow && <path className="ab-doodle-arrow" d={paths.arrow} pathLength={1} />}
+      {paths.head && <path className="ab-doodle-head" d={paths.head} pathLength={1} />}
     </svg>
   );
 }
@@ -176,9 +180,9 @@ export function WorkCard({ item, index }: { item: Project; index: number }) {
         {item.status && <div><Tag tone="accent"><span className="ab-pulse" aria-hidden />{item.status}</Tag></div>}
         <h3 className="ab-work-title"><span>{item.title}</span></h3>
         <dl className="ab-pso">
-          <div><dt>Problem</dt><dd>{item.problem}</dd></div>
-          <div><dt>Solution</dt><dd>{item.solution}</dd></div>
-          <div><dt>Outcome</dt><dd>{item.outcome}</dd></div>
+          <div><dt>Problem</dt><dd><Linkify text={item.problem} /></dd></div>
+          <div><dt>Solution</dt><dd><Linkify text={item.solution} /></dd></div>
+          <div><dt>Outcome</dt><dd><Linkify text={item.outcome} /></dd></div>
         </dl>
         <div className="ab-tags">{item.stack.map((t) => <Tag key={t}>{t}</Tag>)}</div>
         <div className="ab-work-foot">

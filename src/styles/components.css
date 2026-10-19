@@ -166,7 +166,7 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -
 .ab-row:hover .ab-row-t, .ab-row.is-hover .ab-row-t { transform: translateX(16px); }
 .ab-row:hover .ab-row-n, .ab-row.is-hover .ab-row-n { color: var(--accent-fg); }
 .ab-row:hover .ab-row-d, .ab-row.is-hover .ab-row-d { color: var(--fg); }
-.ab-row-note { display: block; margin-top: var(--space-3); }
+.ab-row-note { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin-top: var(--space-3); line-height: 1.5; }
 @container page (max-width: 720px) {
   .ab-row { grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-4); padding: var(--space-6) 0; }
   .ab-row-n { grid-row: 1; }
@@ -212,7 +212,7 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -
   .ab-works { gap: var(--space-16); }
   .ab-work, .ab-work:nth-child(even) { grid-template-columns: 1fr; gap: var(--space-6); }
   .ab-work:nth-child(even) .ab-work-media { order: 0; }
-  .ab-work-num { font-size: 56px; }
+  .ab-work-num { font-size: 56px; top: calc(6% + 18px); }
   .ab-pso > div { grid-template-columns: 1fr; gap: var(--space-1); }
   .ab-work-top { flex-direction: column; gap: var(--space-1); }
   .ab-work-media { cursor: auto; }
@@ -383,3 +383,7 @@ html.lenis, html.lenis body { height: auto; }
   .ab-kochi-grid div { padding-left: 0 !important; border-left: 0 !important; }
   .ab-kochi-grid div:nth-child(even) { padding-left: var(--space-4) !important; border-left: 1px solid var(--line) !important; }
 }
+
+/* ---------- Inline links in copy (sector1.in, Bytekat Technologies) ---------- */
+.ab-inline-link { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: color var(--ab-t-base); }
+.ab-inline-link:hover { color: var(--accent-fg); }
