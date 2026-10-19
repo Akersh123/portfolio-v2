@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { site } from "../data/content";
 import { KochiNow } from "./KochiNow";
+import { stack } from "../data/stack";
 import { Button, Label, cx, handleAnchor } from "./ui";
 
 export function Contact() {
@@ -32,9 +33,15 @@ export function Contact() {
       </div>
       <div className="ab-marquee" aria-hidden>
         <div className="ab-marquee-track">
+          {/* Two identical halves (the track slides -50%); one full set is ~2700px, wider than a 2560px screen */}
           {[0, 1].map((k) => (
             <Fragment key={k}>
-              {["Build", "Lead", "Test", "Ship"].map((w) => <span key={w}>{w}<span className="ab-dot">●</span></span>)}
+              {stack.map((t) => (
+                <span className="ab-marquee-item" key={t.name}>
+                  <svg viewBox="0 0 24 24" style={{ color: t.color, scale: t.scale ? String(t.scale) : undefined }} aria-hidden><path d={t.path} /></svg>
+                  {t.name}<span className="ab-dot">●</span>
+                </span>
+              ))}
             </Fragment>
           ))}
         </div>

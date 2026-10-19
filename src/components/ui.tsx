@@ -75,7 +75,7 @@ export function SectionHead({ label, title, aside }: { label: string; title: Rea
   );
 }
 
-const linkRe = new RegExp(`(${Object.keys(links).map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
+const linkRe = new RegExp(`(${Object.keys(links).sort((a, b) => b.length - a.length).map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
 
 /** Renders text with any known phrase (data/content `links`) turned into an external link. */
 export function Linkify({ text }: { text: string }) {

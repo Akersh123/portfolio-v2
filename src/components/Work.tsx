@@ -83,18 +83,22 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
         const a = a0 + (i / 44) * Math.PI * 2.18, k = 1 + j(i) * 0.06 + i * 0.0018;
         pts.push(`${(cx + Math.cos(a) * rx * k).toFixed(1)},${(cy + Math.sin(a) * ry * k).toFixed(1)}`);
       }
-      // arrow from the note's left/top towards the ring
-      const sx = n.left - b.left - 8, sy = n.top - b.top + n.height * 0.45;
+      // arrow from the note towards the ring: from its left side when the note sits below the tags (desktop),
+      // from its bottom edge, as close to straight above the ring as possible, when it sits above them (phones)
+      const noteAbove = n.bottom <= r.top;
+      const sx = noteAbove ? Math.min(Math.max(cx + 10, n.left - b.left + 10), n.right - b.left - 10) : n.left - b.left - 8;
+      const sy = noteAbove ? n.bottom - b.top + 4 : n.top - b.top + n.height * 0.45;
       const ang = Math.atan2(sy - cy, sx - cx), ex = cx + Math.cos(ang) * (rx + 7), ey = cy + Math.sin(ang) * (ry + 7);
       const mx = (sx + ex) / 2, my = (sy + ey) / 2, len = Math.hypot(sx - ex, sy - ey);
-      // bow the arrow downward so it passes under the tag row, not through it
+      // Note below the tags (desktop): bow the arrow downward, under the tag row.
+      // Note above the tags (phones, see CSS): bow it upward, through the open space above them.
       let px = -(ey - sy) / len, py = (ex - sx) / len;
-      if (py < 0) { px = -px; py = -py; }
+      if (noteAbove ? py > 0 : py < 0) { px = -px; py = -py; }
       const qx = mx + px * len * 0.28, qy = my + py * len * 0.28;
       const d = Math.atan2(ey - qy, ex - qx), hl = 10;
       const head = `M${(ex - Math.cos(d - 0.5) * hl).toFixed(1)},${(ey - Math.sin(d - 0.5) * hl).toFixed(1)} L${ex.toFixed(1)},${ey.toFixed(1)} L${(ex - Math.cos(d + 0.5) * hl).toFixed(1)},${(ey - Math.sin(d + 0.5) * hl).toFixed(1)}`;
       // swoosh under the title's last line (open space below it) + a star after it
-      const lines = [...(el.querySelector(".ab-work-title span")?.getClientRects() ?? [])].filter((q) => q.width > 4);
+      const lines = [...(el.querySelector(".ab-work-tt")?.getClientRects() ?? [])].filter((q) => q.width > 4);
       let under = "", star = "";
       if (lines.length) {
         const f = lines[0], l = lines[lines.length - 1];
@@ -107,9 +111,8 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
         for (let i = 0; i <= 10; i++) { const a = -Math.PI / 2 + 0.12 + i * Math.PI / 5, rr = (i % 2 ? R * 0.45 : R) * (1 + j(i + 20) * 0.08); sp.push(`${(sxc + Math.cos(a) * rr).toFixed(1)},${(syc + Math.sin(a) * rr).toFixed(1)}`); }
         star = `M${sp.join(" L")}`;
       }
-      // On narrow cards the note wraps under the button and any arrow would cut through tags, so skip it there
-      const arrow = narrow ? "" : `M${sx.toFixed(1)},${sy.toFixed(1)} Q${qx.toFixed(1)},${qy.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`;
-      setPaths({ ring: `M${pts.join(" L")}`, arrow, head: narrow ? "" : head, under, star });
+      const arrow = `M${sx.toFixed(1)},${sy.toFixed(1)} Q${qx.toFixed(1)},${qy.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`;
+      setPaths({ ring: `M${pts.join(" L")}`, arrow, head, under, star });
     };
     measure();
     const ro = new ResizeObserver(measure); ro.observe(el);
@@ -178,7 +181,7 @@ export function WorkCard({ item, index }: { item: Project; index: number }) {
           <span className="ab-label ab-work-role">{item.role}</span>
         </div>
         {item.status && <div><Tag tone="accent"><span className="ab-pulse" aria-hidden />{item.status}</Tag></div>}
-        <h3 className="ab-work-title"><span>{item.title}</span></h3>
+        <h3 className="ab-work-title"><span className="ab-work-n" aria-hidden>{n}</span><span className="ab-work-tt">{item.title}</span></h3>
         <dl className="ab-pso">
           <div><dt>Problem</dt><dd><Linkify text={item.problem} /></dd></div>
           <div><dt>Solution</dt><dd><Linkify text={item.solution} /></dd></div>

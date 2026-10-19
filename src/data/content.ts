@@ -2,7 +2,7 @@
 
 export const site = {
   name: "Akersh Bhaskar",
-  role: "Laravel Developer & Project Lead",
+  role: "Assistant Project Manager & Mid-Level Laravel Developer",
   city: "Kochi",
   email: "akershbhaskar.in@gmail.com",
   linkedin: "#", // TODO: https://www.linkedin.com/in/…
@@ -14,6 +14,7 @@ export const site = {
 export const links: Record<string, { href: string; note: string }> = {
   "sector1.in": { href: "https://sector1.in", note: "visit the store" },
   "Bytekat Technologies": { href: "https://bytekat.com", note: "where I work" },
+  Bytekat: { href: "https://bytekat.com", note: "where I work" },
 };
 
 export const nav = [
@@ -24,7 +25,7 @@ export const nav = [
 ] as const;
 
 export const hero = {
-  sub: "Three years shipping enterprise systems for banking, financial services and agriculture — from the first requirement call to the tested release.",
+  sub: "3+ years at Bytekat shipping enterprise systems for banking, financial services, agriculture, e-commerce and ERP — from the first requirement call to the tested release.",
   stack: "Laravel · PHP · MySQL · React · Linux · AWS",
 };
 
@@ -33,12 +34,12 @@ export const about = {
     "For three years I’ve built enterprise systems that banks, financial-services teams and an agricultural university rely on every day. I write the Laravel, I lead the delivery, and I test the build before it reaches anyone — so what ships is the whole product, not just the code.",
   hats: [
     { title: "Developer", body: "PHP and Laravel back ends, MySQL schemas, REST APIs — and the Tailwind front end that sits on top." },
-    { title: "Project lead", body: "Requirement calls, scoping, sprint planning and the client update nobody has to chase." },
+    { title: "Project manager", body: "Requirement calls, scoping, sprint planning and the client update nobody has to chase." },
     { title: "Tester", body: "Manual QA on every release: roles, edge cases and bad data, written up as clear test cases." },
   ],
   facts: [
-    { value: "3+", label: "years at Bytekat Technologies" },
-    { value: "3", label: "client domains: banking, financial services, agriculture" },
+    { value: "3+", label: "years at Bytekat" },
+    { value: "5", label: "client domains: banking, financial services, agriculture, e-commerce, ERP" },
     { value: "1", label: "person from requirement to release" },
   ],
 };
@@ -92,6 +93,7 @@ export const projects: Project[] = [
     solution: "A motion-led site in React, TypeScript and Tailwind with GSAP ScrollTrigger and Lenis, built from a documented design system.",
     outcome: "A working sample of my front-end and UX detail — and the system behind it.",
     stack: ["React", "TypeScript", "Tailwind", "GSAP", "Lenis"],
+    image: "/work/portfolio/mockup.jpg", // mockup of this site: hero on desktop, a doodled project card on a phone
     doodle: { tag: "GSAP", note: "you're scrolling it right now" }, // DRAFT note — edit freely
   },
 ];
@@ -99,7 +101,7 @@ export const projects: Project[] = [
 export const experience = {
   company: "Bytekat Technologies",
   location: "Kerala, India",
-  domains: ["Banking", "Financial services", "Agricultural university"],
+  domains: ["Banking", "Financial services", "Agricultural university", "E-commerce", "ERP"],
   // Oldest first: the timeline spine fills top to bottom as you scroll. Summaries are DRAFT — edit freely.
   stages: [
     { start: "Nov 2023", end: "Nov 2025", title: "Junior Laravel Developer & Tester",
