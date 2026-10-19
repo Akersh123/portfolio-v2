@@ -1,0 +1,66 @@
+/* Akersh Bhaskar — generated from tokens.json (design system). Do not hand-edit values; change the design system and regenerate. */
+:root,
+[data-theme="dark"] {
+  --bg: #0c0c0b;
+  --bg-raised: #161614;
+  --bg-sunken: #080807;
+  --line: #2a2a27;
+  --line-strong: #6a6962;
+  --fg: #f2efe8;
+  --fg-muted: #a29f96;
+  --fg-faint: #76736b;
+  --accent: #ff5b2e;
+  --accent-fg: #ff5b2e;
+  --on-accent: #0c0c0b;
+  --focus: var(--accent);
+  --selection: #ff5b2e;
+  --shadow-none: none;
+  --shadow-float: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: #f3f0e9;
+  --bg-raised: #fbf9f4;
+  --bg-sunken: #e8e4da;
+  --line: #d9d4c8;
+  --line-strong: #857f72;
+  --fg: #121210;
+  --fg-muted: #5c5952;
+  --fg-faint: #7d7970;
+  --accent: #ff5b2e;
+  --accent-fg: #b3320b;
+  --on-accent: #0c0c0b;
+  --focus: var(--accent-fg);
+  --selection: #ff5b2e;
+  --shadow-float: 0 24px 60px -24px rgba(18, 18, 16, 0.28);
+  color-scheme: light;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-40: 160px;
+  --content-max: 1440px;
+  --radius-0: 0px;
+  --radius-sm: 4px;
+  --radius-pill: 999px;
+  --gutter: clamp(16px, 4cqi, 48px);
+  --section-y: clamp(96px, 13cqi, 160px);
+  --fs-hero: clamp(64px, 18.5cqi, 264px);
+  --fs-display: clamp(48px, 10cqi, 144px);
+  --fs-h1: clamp(40px, 6cqi, 80px);
+  --fs-h2: clamp(28px, 3.6cqi, 48px);
+  --fs-statement: clamp(24px, 3.3cqi, 44px);
+  --z-nav: 50;
+  --z-menu: 60;
+  --z-cursor: 100;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
