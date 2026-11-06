@@ -1,5 +1,4 @@
-import { useRef, type ReactNode, type MouseEvent } from "react";
-import { useMagnetic } from "../hooks/useMagnetic";
+import type { ReactNode, MouseEvent } from "react";
 import { lenis } from "../lib/lenis";
 import { links } from "../data/content";
 
@@ -30,8 +29,6 @@ export function handleAnchor(e: MouseEvent<HTMLAnchorElement>, href?: string) {
 }
 
 export function Button({ variant = "primary", size, href, onClick, icon, arrow = true, download, external, className, note, children }: ButtonProps) {
-  const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
-  useMagnetic(ref, variant === "link" ? 0.15 : 0.35);
   const cls = cx("ab-btn", `ab-btn-${variant}`, size === "sm" && "ab-btn-sm", className);
   const inner = (
     <span className="ab-btn-label">
@@ -41,13 +38,13 @@ export function Button({ variant = "primary", size, href, onClick, icon, arrow =
   );
   if (href)
     return (
-      <a ref={ref} className={cls} href={href} data-cursor="link" data-note={note} download={download || undefined}
+      <a className={cls} href={href} data-cursor="link" data-note={note} download={download || undefined}
         target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}
         onClick={(e) => handleAnchor(e, href)}>
         {inner}
       </a>
     );
-  return <button ref={ref} type="button" className={cls} onClick={onClick} data-cursor="link" data-note={note}>{inner}</button>;
+  return <button type="button" className={cls} onClick={onClick} data-cursor="link" data-note={note}>{inner}</button>;
 }
 
 export function Tag({ tone, children }: { tone?: "accent" | "solid"; children: ReactNode }) {

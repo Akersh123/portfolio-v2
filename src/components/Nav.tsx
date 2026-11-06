@@ -80,7 +80,7 @@ export function Nav() {
       <div className="ab-nav-right">
         <button className="ab-toggle" aria-pressed={theme === "light"} data-cursor="link" data-note="lights!" onClick={toggleTheme}
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} />
-        <Button size="sm" variant="ghost" href="#contact" note="let’s chat!">Let’s talk</Button>
+        <Button size="sm" variant="ghost" href="#contact">Let’s talk</Button>
         <button className="ab-menu-btn" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
           {open ? "Close" : "Menu"}<span className="ab-burger" aria-hidden />
         </button>
@@ -96,7 +96,9 @@ export function Nav() {
           ))}
         </ol>
         <div className="ab-tags">
-          <Tag>{site.email}</Tag><Tag>LinkedIn</Tag><Tag>GitHub</Tag>
+          <a href={`mailto:${site.email}`}><Tag>{site.email}</Tag></a>
+          {site.linkedin && <a href={site.linkedin} target="_blank" rel="noreferrer"><Tag>LinkedIn</Tag></a>}
+          {site.github && <a href={site.github} target="_blank" rel="noreferrer"><Tag>GitHub</Tag></a>}
         </div>
       </nav>
     </header>

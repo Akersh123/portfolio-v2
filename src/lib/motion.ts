@@ -1,5 +1,4 @@
 import { gsap, ScrollTrigger, SplitText, EASE_OUT, prefersReducedMotion } from "./gsap";
-import { INTRO_HOLD } from "./intro";
 
 /**
  * Site-wide scroll motion, set up once from App inside useGSAP (auto-reverted on unmount).
@@ -35,7 +34,7 @@ export function setupMotion(root: HTMLElement) {
           duration: 0.9,
           ease: EASE_OUT,
           stagger: 0.08,
-          delay: delay(el) + (el.dataset.split === "load" ? INTRO_HOLD : 0), // load reveals wait for the intro loader
+          delay: delay(el),
           scrollTrigger: el.dataset.split === "load" ? undefined : { trigger: el, start: "top 85%", once: true },
         });
       },
@@ -46,7 +45,7 @@ export function setupMotion(root: HTMLElement) {
   root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
     const load = el.dataset.reveal === "load";
     const st = load ? undefined : { trigger: el, start: "top 85%", once: true };
-    const d = delay(el) + (load ? INTRO_HOLD : 0);
+    const d = delay(el);
     gsap.from(el, { autoAlpha: 0, duration: 0.64, ease: EASE_OUT, delay: d, scrollTrigger: st });
     gsap.from(el, { y: 24, duration: 0.9, ease: EASE_OUT, delay: d, scrollTrigger: st });
   });
@@ -56,6 +55,25 @@ export function setupMotion(root: HTMLElement) {
   if (hero) {
     const st = { trigger: hero, start: "top top", end: "bottom top", scrub: true };
     gsap.to(hero.querySelector(".ab-hero-name"), { yPercent: -12, ease: "none", scrollTrigger: st });
+  }
+
+  // Hero note: handwriting wipes in after the CTAs, the arrow draws, then it keeps nudging down
+  const note = root.querySelector<HTMLElement>(".ab-hero-note");
+  if (hero && note) {
+    const arrow = note.querySelector("svg");
+    const nudge = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.6 })
+      .to(arrow, { y: 7, duration: 0.35, ease: "power2.in" })
+      .to(arrow, { y: 0, duration: 0.8, ease: "elastic.out(1, 0.45)" });
+    gsap.timeline({ delay: 1.3, onComplete: () => { nudge.play(); } })
+      .fromTo(note.querySelector(".ab-hero-note-text"),
+        { clipPath: "inset(-20% 110% -20% -10%)" },
+        { clipPath: "inset(-20% -10% -20% -10%)", duration: 0.8, ease: "steps(18)" })
+      .fromTo(note.querySelectorAll("path"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, stagger: 0.4, ease: EASE_OUT }, "-=0.15");
+    // As you scroll down the note slides along with you and fades: it has done its job
+    gsap.to(note, {
+      y: 40, autoAlpha: 0, ease: "none",
+      scrollTrigger: { trigger: hero, start: "top top", end: "35% top", scrub: true },
+    });
   }
 
   // 3 — About: words light from fg-faint to fg with scroll

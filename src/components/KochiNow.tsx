@@ -13,27 +13,26 @@ const kochiYMD = (d: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ })
 const kochiHour = (d: Date) => { const [h, m] = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: TZ }).format(d).split(":"); return (+h % 24) + +m / 60; };
 
 /** WMO weather codes → plain-English label. */
-function describe(code: number): { label: string } {
-  if (code === 0) return { label: "clear sky" };
-  if (code <= 2) return { label: "partly cloudy" };
-  if (code === 3) return { label: "overcast" };
-  if (code === 45 || code === 48) return { label: "foggy" };
-  if (code >= 51 && code <= 57) return { label: "drizzle" };
-  if (code >= 61 && code <= 67) return { label: code >= 65 ? "heavy rain" : "rain" };
-  if (code >= 80 && code <= 82) return { label: "rain showers" };
-  if (code >= 95) return { label: "thunderstorm" };
-  return { label: "cloudy" };
+function describe(code: number) {
+  if (code === 0) return "clear sky";
+  if (code <= 2) return "partly cloudy";
+  if (code === 3) return "overcast";
+  if (code === 45 || code === 48) return "foggy";
+  if (code >= 51 && code <= 57) return "drizzle";
+  if (code >= 61 && code <= 67) return code >= 65 ? "heavy rain" : "rain";
+  if (code >= 80 && code <= 82) return "rain showers";
+  if (code >= 95) return "thunderstorm";
+  return "cloudy";
 }
 
 function mood(h: number) {
-  if (h < 5) return "Fast asleep. Probably dreaming about clean migrations.";
-  if (h < 8) return "Morning chai on the balcony.";
-  if (h < 13) return "Writing Laravel, deep in a ticket.";
-  if (h < 14) return "Lunch break.";
-  if (h < 18) return "Client calls and testing the release.";
-  if (h < 20) return "Sunset over the backwaters. Shipping something.";
-  if (h < 23) return "Probably fixing one last bug.";
-  return "Should be asleep. Isn't.";
+  if (h < 6) return "Asleep.";
+  if (h < 9) return "Morning, before work.";
+  if (h < 13) return "At work, writing Laravel.";
+  if (h < 14) return "Lunch.";
+  if (h < 18) return "At work: client calls and testing.";
+  if (h < 22) return "Done for the day.";
+  return "Probably asleep.";
 }
 
 /** "in 2h 10m" / "3h ago" relative to now. */
@@ -166,7 +165,6 @@ export function KochiNow() {
   }, [day]);
 
   const illum = moonIllumination(now);
-  const w = wx ? describe(wx.code) : null;
 
   return (
     <section className="ab-kochi" aria-label="Kochi right now">
@@ -177,10 +175,10 @@ export function KochiNow() {
           <span className="ab-kochi-mood">{mood(kochiHour(now))}</span>
         </div>
         <div className="ab-kochi-wx">
-          {wx && w ? (
+          {wx ? (
             <>
               <b>{Math.round(wx.temp)}°C</b>
-              <span>{w.label}</span>
+              <span>{describe(wx.code)}</span>
               <span className="ab-kochi-sub">Feels like {Math.round(wx.feels)}°C</span>
             </>
           ) : <span className="ab-kochi-sub">{wxFailed ? "Weather unavailable right now" : "Checking the weather…"}</span>}
@@ -196,7 +194,7 @@ export function KochiNow() {
         <div><dt>Moonrise</dt><dd>{fmt(times.moon.rise)}</dd><span>{rel(times.moon.rise, now)}</span></div>
         <div><dt>Moonset</dt><dd>{fmt(times.moon.set)}</dd><span>{rel(times.moon.set, now)}</span></div>
         <div><dt>Moon</dt><dd>{Math.round(illum.fraction * 100)}%</dd><span>{phaseName(illum.phase)}</span></div>
-        <div><dt>Humidity</dt><dd>{wx ? `${wx.humidity}%` : "—"}</dd><span>{wx ? (wx.humidity > 75 ? "classic Kerala" : "pleasant") : "loading"}</span></div>
+        <div><dt>Humidity</dt><dd>{wx ? `${wx.humidity}%` : "—"}</dd><span>{wx ? (wx.humidity > 75 ? "humid" : "comfortable") : "loading"}</span></div>
       </dl>
     </section>
   );

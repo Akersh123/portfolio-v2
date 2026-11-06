@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { hero, site } from "../data/content";
-import { Button } from "./ui";
+import { Button, handleAnchor } from "./ui";
 
 function Clock() {
   const [t, setT] = useState("");
@@ -13,7 +13,7 @@ function Clock() {
   return <span className="ab-scroll">{site.city} · IST {t}</span>;
 }
 
-/** Load sequence: meta → name 200ms → positioning 650 → sub 850 → CTAs 1000. */
+/** Load sequence: name 200ms → positioning 650 → sub 850 → CTAs 1000 → note 1300. */
 export function Hero() {
   return (
     <section className="ab-hero ab-wrap" id="top">
@@ -22,16 +22,22 @@ export function Hero() {
       </h1>
       <div className="ab-hero-row">
         <p className="ab-hero-pos" data-split="load" data-delay="650">
-          {site.role} —<br />I build, lead <span className="ab-serif">and ship.</span>
+          {site.role}.<br />I write the code <span className="ab-hand">and run the project.</span>
         </p>
         <p className="ab-hero-sub" data-reveal="load" data-delay="850">{hero.sub}</p>
         <div className="ab-hero-cta" data-reveal="load" data-delay="1000">
-          <Button href="#work" note="start here">View work</Button>
+          <Button href="#work">View work</Button>
           <Button variant="ghost" href="#contact" arrow={false} note="say hi!">Get in touch</Button>
         </div>
       </div>
       <div className="ab-hero-foot">
-        <span className="ab-scroll"><span className="ab-scroll-line" />Scroll</span>
+        <a className="ab-hero-note" href="#work" data-cursor="link" onClick={(e) => handleAnchor(e, "#work")}>
+          <span className="ab-hero-note-text">{hero.note}</span>
+          <svg viewBox="0 0 48 72" aria-hidden>
+            <path pathLength={1} d="M3 14 C 14 10, 26 12, 30 22 C 34 32, 26 40, 19 35 C 12 30, 20 20, 30 27 C 38 33, 37 50, 34 64" />
+            <path pathLength={1} d="M27 57 L 34 65 L 41 58" />
+          </svg>
+        </a>
         <span className="ab-scroll ab-hide-sm">{hero.stack}</span>
         <Clock />
       </div>

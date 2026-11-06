@@ -1,4 +1,4 @@
-/* Akersh Bhaskar — generated from tokens.json (design system). Do not hand-edit values; change the design system and regenerate. */
+/* Design tokens: colour, spacing, type. tailwind.config.ts and components.css both read from these. */
 :root,
 [data-theme="dark"] {
   --bg: #0c0c0b;
@@ -60,7 +60,7 @@
   --z-nav: 50;
   --z-menu: 60;
   --z-cursor: 100;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }

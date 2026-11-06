@@ -3,7 +3,6 @@ import { useGSAP } from "./lib/gsap";
 import { setupMotion } from "./lib/motion";
 import { startLenis } from "./lib/lenis";
 import { Cursor } from "./components/Cursor";
-import { Loader } from "./components/Loader";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
@@ -25,7 +24,6 @@ export default function App() {
   return (
     <>
       <a className="ab-btn ab-btn-primary ab-btn-sm ab-skip" href="#about">Skip to content</a>
-      <Loader />
       <Cursor />
       <Nav />
       <main ref={main} className="ab-page">

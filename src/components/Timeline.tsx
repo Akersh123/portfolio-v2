@@ -5,7 +5,7 @@ export function Timeline() {
   const last = x.stages.length - 1;
   return (
     <section className="ab-section ab-wrap" id="experience">
-      <SectionHead label="Experience" title="Where I’ve shipped" />
+      <SectionHead label="Experience" title="Where I’ve worked" />
       <ol className="ab-tl">
         <span className="ab-tl-prog" aria-hidden />
         {x.stages.map((s, i) => (
@@ -25,7 +25,7 @@ export function Timeline() {
           <div className="ab-tl-when"><b style={{ color: "var(--fg-muted)" }}>Next</b><Label>Open to roles</Label></div>
           <div className="ab-tl-body" data-reveal data-delay="120">
             <h3 style={{ color: "var(--fg-muted)" }}>Your team?</h3>
-            <p>Looking for a team where I can keep building, leading and shipping complete products.</p>
+            <p>Open to roles where I can keep writing code and running projects.</p>
           </div>
         </li>
       </ol>

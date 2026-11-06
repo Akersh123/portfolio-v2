@@ -18,7 +18,7 @@ export default {
       accent: { DEFAULT: v("accent"), fg: v("accent-fg"), on: v("on-accent") },
       focus: v("focus"),
     },
-    fontFamily: { sans: v("font-sans"), serif: v("font-serif"), mono: v("font-mono") },
+    fontFamily: { sans: v("font-sans"), hand: v("font-hand"), mono: v("font-mono") },
     fontSize: {
       hero: [v("fs-hero"), { lineHeight: "0.86", letterSpacing: "-0.055em" }],
       display: [v("fs-display"), { lineHeight: "0.92", letterSpacing: "-0.045em" }],

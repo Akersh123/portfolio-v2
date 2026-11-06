@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type RefObject } from "react";
 import { projects, type Project, type Shot } from "../data/content";
-import { Button, Label, Linkify, SectionHead, Tag, cx } from "./ui";
+import { Label, Linkify, SectionHead, Tag, cx } from "./ui";
 
 /** Scroll-snap carousel: swipe/trackpad natively, buttons, dots and arrow keys. */
 function Gallery({ shots, title }: { shots: Shot[]; title: string }) {
@@ -32,27 +32,14 @@ function Gallery({ shots, title }: { shots: Shot[]; title: string }) {
       </div>
       <span className="ab-gal-tag ab-label">{shots[i]?.group}</span>
       <div className="ab-gal-ctrl">
-        <button type="button" onClick={() => go(i - 1)} aria-label="Previous screenshot" data-cursor="link" data-note="previous one">←</button>
+        <button type="button" onClick={() => go(i - 1)} aria-label="Previous screenshot" data-cursor="link">←</button>
         <div className="ab-gal-dots">
           {shots.map((s, n) => (
             <button type="button" key={s.src} className={cx(n === i && "is-on")} onClick={() => go(n)}
               aria-label={`Show screenshot ${n + 1}`} aria-current={n === i ? "true" : undefined} data-cursor="link" />
           ))}
         </div>
-        <button type="button" onClick={() => go(i + 1)} aria-label="Next screenshot" data-cursor="link" data-note="next one">→</button>
-      </div>
-    </div>
-  );
-}
-
-/** Stand-in screen until real screenshots exist (set `image` on the project). */
-function Mock() {
-  return (
-    <div className="ab-work-screen">
-      <div className="ab-mock-bar"><i /><i /><i /><span /></div>
-      <div className="ab-mock">
-        <div className="ab-mock-side"><b /><b /><b /><b /><b /></div>
-        <div className="ab-mock-main"><b className="s" /><b className="a" /><b /><b /><b /><b /></div>
+        <button type="button" onClick={() => go(i + 1)} aria-label="Next screenshot" data-cursor="link">→</button>
       </div>
     </div>
   );
@@ -159,21 +146,18 @@ function Doodle({ body, note, tag, seed }: { body: RefObject<HTMLDivElement>; no
 
 export function WorkCard({ item, index }: { item: Project; index: number }) {
   const n = String(index + 1).padStart(2, "0");
-  const href = `#work`; // TODO: link to /work/${item.slug} once case-study pages exist
   const body = useRef<HTMLDivElement>(null), note = useRef<HTMLSpanElement>(null);
   return (
     <article className="ab-work" data-reveal>
       {item.gallery?.length
         ? <Gallery shots={item.gallery} title={item.title} />
-        : <a className="ab-work-media" href={href} data-cursor="view" data-note="have a look" aria-label={`Open case study: ${item.title}`}>
+        : item.image && (
+          <div className="ab-work-media">
             <div className="ab-work-media-in" data-parallax>
-              <div className="ab-work-zoom">
-                {item.image
-                  ? <img src={item.image} alt="" loading="lazy" />
-                  : <><span className="ab-work-num">{n}</span><Mock /></>}
-              </div>
+              <div className="ab-work-zoom"><img src={item.image} alt={`${item.title} screenshot`} loading="lazy" /></div>
             </div>
-          </a>}
+          </div>
+        )}
       <div className="ab-work-body" ref={body}>
         {item.doodle && <Doodle body={body} note={note} tag={item.doodle.tag} seed={index + 1} />}
         <div className="ab-work-top">
@@ -188,10 +172,7 @@ export function WorkCard({ item, index }: { item: Project; index: number }) {
           <div><dt>Outcome</dt><dd><Linkify text={item.outcome} /></dd></div>
         </dl>
         <div className="ab-tags">{item.stack.map((t) => <Tag key={t}>{t}</Tag>)}</div>
-        <div className="ab-work-foot">
-          <Button variant="link" href={href}>Read case study</Button>
-          {item.doodle && <span className="ab-doodle-note" ref={note}>{item.doodle.note}</span>}
-        </div>
+        {item.doodle && <div className="ab-work-foot"><span className="ab-doodle-note" ref={note}>{item.doodle.note}</span></div>}
       </div>
     </article>
   );
@@ -201,8 +182,8 @@ export function Work() {
   return (
     <section className="ab-section ab-wrap" id="work">
       <SectionHead label="Selected work"
-        title={<>Selected<br /><span className="ab-serif">work</span><span className="ab-dot">.</span></>}
-        aside="Three products, each taken from requirement to release." />
+        title={<>Selected<br /><span className="ab-hand">work</span><span className="ab-dot">.</span></>}
+        aside="Two products and this site." />
       <div className="ab-works">
         {projects.map((p, i) => <WorkCard key={p.slug} item={p} index={i} />)}
       </div>

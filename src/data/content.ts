@@ -1,13 +1,14 @@
-/* All site copy lives here. Items marked DRAFT were written from project names — replace with the real story. */
+/* All site copy lives here. Lines marked TODO need a real detail from you (a link, a number, a confirmation). */
 
 export const site = {
   name: "Akersh Bhaskar",
   role: "Assistant Project Manager & Mid-Level Laravel Developer",
   city: "Kochi",
   email: "akershbhaskar.in@gmail.com",
-  linkedin: "#", // TODO: https://www.linkedin.com/in/…
-  github: "#", // TODO: https://github.com/…
-  resume: "/akersh-bhaskar-resume.pdf", // TODO: drop the PDF into /public
+  // Empty = hidden. Fill these in and the links/buttons appear.
+  linkedin: "", // TODO: https://www.linkedin.com/in/…
+  github: "", // TODO: https://github.com/…
+  resume: "", // TODO: put the PDF in /public and set "/akersh-bhaskar-resume.pdf"
 };
 
 /** Phrases that become links wherever they appear in site copy (see <Linkify>). note = cursor note. */
@@ -25,32 +26,28 @@ export const nav = [
 ] as const;
 
 export const hero = {
-  sub: "3+ years at Bytekat shipping enterprise systems for banking, financial services, agriculture, e-commerce and ERP — from the first requirement call to the tested release.",
+  sub: "Three years at Bytekat building Laravel systems for banks, financial-services firms, an agricultural university, online stores and ERP clients.",
   stack: "Laravel · PHP · MySQL · React · Linux · AWS",
+  note: "the good stuff's below", // handwritten note in the hero foot, arrow points to #work
 };
 
 export const about = {
   statement:
-    "For three years I’ve built enterprise systems that banks, financial-services teams and an agricultural university rely on every day. I write the Laravel, I lead the delivery, and I test the build before it reaches anyone — so what ships is the whole product, not just the code.",
+    "I joined Bytekat in November 2023 as a junior Laravel developer who also tested each release. I’ve since moved into running projects, but I still write the code, and I still test it before it reaches a client.",
   hats: [
-    { title: "Developer", body: "PHP and Laravel back ends, MySQL schemas, REST APIs — and the Tailwind front end that sits on top." },
-    { title: "Project manager", body: "Requirement calls, scoping, sprint planning and the client update nobody has to chase." },
-    { title: "Tester", body: "Manual QA on every release: roles, edge cases and bad data, written up as clear test cases." },
-  ],
-  facts: [
-    { value: "3+", label: "years at Bytekat" },
-    { value: "5", label: "client domains: banking, financial services, agriculture, e-commerce, ERP" },
-    { value: "1", label: "person from requirement to release" },
+    { title: "Developer", body: "PHP and Laravel back ends, MySQL schemas and REST APIs, plus the Tailwind front end on top." },
+    { title: "Project manager", body: "Requirement calls with clients, scoping, sprint planning and progress updates." },
+    { title: "Tester", body: "Manual QA before each release. I write the test cases and check each user role against edge cases and bad input." },
   ],
 };
 
 export type SkillGroup = { name: string; items: string[]; note: string; status?: string };
 export const skills: SkillGroup[] = [
-  { name: "Backend", items: ["PHP", "Laravel", "MySQL", "REST APIs", "Queues & jobs"], note: "Where I spend most days." },
-  { name: "Frontend", items: ["Tailwind CSS", "JavaScript", "React", "GSAP"], note: "Interfaces with motion that means something." },
-  { name: "Cloud", items: ["AWS S3"], note: "Learning: wider AWS — compute, queues, mail.", status: "In progress" },
-  { name: "Servers", items: ["Linux", "Server management"], note: "Setting up and looking after the machines my apps run on." },
-  { name: "Process", items: ["Project leadership", "Manual testing", "Requirement analysis"], note: "The part that makes code a product." },
+  { name: "Backend", items: ["PHP", "Laravel", "MySQL", "REST APIs", "Queues & jobs"], note: "Most of my working day." },
+  { name: "Frontend", items: ["Tailwind CSS", "JavaScript", "React", "GSAP"], note: "The interfaces my back ends need, and this site." },
+  { name: "Cloud", items: ["AWS S3"], note: "Using S3 now, learning the rest of AWS.", status: "In progress" },
+  { name: "Servers", items: ["Linux", "Server management"], note: "I set up and maintain the servers my apps run on." },
+  { name: "Process", items: ["Project leadership", "Manual testing", "Requirement analysis"], note: "How I run projects at Bytekat." },
 ];
 
 export type Project = {
@@ -65,11 +62,12 @@ export type Shot = { src: string; alt: string; group: string };
 export const projects: Project[] = [
   {
     slug: "sector1", title: "Sector1 — Men’s Wear Store", role: "Full-stack developer", domain: "Retail · E-commerce", // TODO: confirm role
-    problem: "A multi-brand men’s wear store in Kattappana, Kerala needed to sell online and deliver across India — without losing track of stock or payments.", // DRAFT
-    solution: "A Laravel storefront and admin panel: filterable catalog with size × colour stock, guest and account carts, Razorpay checkout backed by an idempotent webhook that auto-refunds stale orders, and plan-tiered admin access.",
-    outcome: "Live at sector1.in — the store takes and tracks orders online, with a full audit trail on every status change.",
+    problem: "A men’s wear store in Kattappana, Kerala, carrying several brands, wanted to sell online and ship across India while keeping stock and payments in sync.",
+    solution: "A Laravel storefront and admin panel. The catalog tracks stock for every size and colour. Checkout runs on Razorpay, with an idempotent webhook so a repeated payment event can’t process an order twice, and stale orders are refunded automatically. Admin access is tiered by plan.",
+    // TODO: add one real number here: orders per month, products listed, or how long it has been live
+    outcome: "Live at sector1.in. Every change to an order’s status is logged.",
     stack: ["Laravel 13", "PHP 8.4", "MySQL", "Tailwind v4", "Alpine.js", "Razorpay"],
-    doodle: { tag: "Razorpay", note: "every payment accounted for" }, // DRAFT note — edit freely
+    doodle: { tag: "Razorpay", note: "every payment accounted for" },
     gallery: [
       { src: "/work/sector1/store-home.jpg", alt: "Sector1 storefront home page with the “Dressed for impact” hero", group: "Storefront" },
       { src: "/work/sector1/store-shop.jpg", alt: "Shop page with category filters, search and product grid", group: "Storefront" },
@@ -79,22 +77,22 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "bugsby", title: "Bugsby — Test Case Management", role: "Design & full-stack build", domain: "QA tooling", status: "Upcoming — launching soon", // TODO: confirm role
-    problem: "QA teams kept test cases in spreadsheets, re-copied them for every release, and collected client bug reports over email with no shared status.", // DRAFT
-    solution: "A self-hosted platform with a reusable test case library, versioned test sheets and runs, a bug workflow that reopens automatically when a retest fails, and a client portal where clients report and follow their bugs through a signed link and an email code — no account needed.",
-    outcome: "Every screen and API route is built and role-scoped across Super Admin, Test Manager, Tester, Developer and Client. Email delivery and deployment are being finished before it goes live.",
+    slug: "bugsby", title: "Bugsby — Test Case Management", role: "Design & full-stack build", domain: "QA tooling", status: "Launching soon", // TODO: confirm role
+    problem: "QA teams kept test cases in spreadsheets, copied them again for each release, and collected client bug reports by email with no shared status.",
+    solution: "A self-hosted platform. Test cases live in a reusable library, and test sheets and runs are versioned. A bug reopens on its own when its retest fails. Clients report and follow their bugs in a portal, signing in with a link and an emailed code instead of an account.",
+    outcome: "Every screen and API route is built, with permissions for five roles: Super Admin, Test Manager, Tester, Developer and Client. Email delivery and deployment are the last steps before launch.",
     stack: ["Rust", "Axum", "PostgreSQL", "Redis", "React", "TypeScript", "Tailwind"],
-    doodle: { tag: "Rust", note: "new stack, new tricks" }, // DRAFT note — edit freely
-    image: "/work/bugsby/mockup.jpg", // stylised mockup — real UI stays private until launch
+    doodle: { tag: "Rust", note: "new stack, new tricks" },
+    image: "/work/bugsby/mockup.jpg", // stylised mockup; the real UI stays private until launch
   },
   {
     slug: "portfolio", title: "This portfolio", role: "Design & build", domain: "Personal",
-    problem: "A CV lists skills. It can’t show how I care about the last 10% of a product.",
-    solution: "A motion-led site in React, TypeScript and Tailwind with GSAP ScrollTrigger and Lenis, built from a documented design system.",
-    outcome: "A working sample of my front-end and UX detail — and the system behind it.",
+    problem: "A CV can list front-end skills, but it can’t show them.",
+    solution: "Designed and built in React, TypeScript and Tailwind, with GSAP for the scroll animation, Lenis for smooth scrolling and hand-drawn SVG doodles that draw as you scroll.",
+    outcome: "The site you’re reading.",
     stack: ["React", "TypeScript", "Tailwind", "GSAP", "Lenis"],
     image: "/work/portfolio/mockup.jpg", // mockup of this site: hero on desktop, a doodled project card on a phone
-    doodle: { tag: "GSAP", note: "you're scrolling it right now" }, // DRAFT note — edit freely
+    doodle: { tag: "GSAP", note: "you're scrolling it right now" },
   },
 ];
 
@@ -102,20 +100,20 @@ export const experience = {
   company: "Bytekat Technologies",
   location: "Kerala, India",
   domains: ["Banking", "Financial services", "Agricultural university", "E-commerce", "ERP"],
-  // Oldest first: the timeline spine fills top to bottom as you scroll. Summaries are DRAFT — edit freely.
+  // Oldest first: the timeline spine fills top to bottom as you scroll.
   stages: [
     { start: "Nov 2023", end: "Nov 2025", title: "Junior Laravel Developer & Tester",
-      summary: "Joined Bytekat building Laravel features and testing each release before it reached the client." },
+      summary: "Built Laravel features and tested each release before it went to the client." },
     { start: "Nov 2025", end: "Oct 2026", title: "Project Lead, Junior Laravel Developer & Tester",
-      summary: "Took the lead on projects: running delivery with clients and the team, while still writing and testing the Laravel." },
-    { start: "Oct 2026", end: "Now", title: "Assistant Project Manager & Mid Level Laravel Developer",
-      summary: "Managing delivery across projects with clients and the team, and building the Laravel behind them." },
+      summary: "Started leading projects: running delivery with clients and the team, while still writing and testing the Laravel." },
+    { start: "Oct 2026", end: "Now", title: "Assistant Project Manager & Mid-Level Laravel Developer",
+      summary: "Managing delivery across several projects and building the Laravel behind them." },
   ],
 };
 
 export const principles = [
-  { title: "Own the requirement", body: "I restate the problem in the client’s words, then in data. If I can’t write the acceptance criteria, I’m not ready to write the code." },
-  { title: "Ship tested", body: "I test my own builds the way QA would — every role, every edge case, the bad data — before anyone else has to." },
-  { title: "Make it obvious", body: "Small tickets, written decisions, a visible board. A team moves faster when nobody has to guess." },
-  { title: "Finish the last 10%", body: "Empty states, loading states, the wording of an error. The details users feel but never mention." },
+  { title: "Own the requirement", body: "I restate the problem in the client’s words, then as data. If I can’t write the acceptance criteria, I’m not ready to write the code." },
+  { title: "Test before handing over", body: "I test my own builds the way a QA tester would, so the obvious bugs never reach anyone else." },
+  { title: "Keep it visible", body: "Small tickets, decisions written down and a board the whole team can see." },
+  { title: "Finish the details", body: "Empty states, loading states and error messages get the same attention as the main screens." },
 ];

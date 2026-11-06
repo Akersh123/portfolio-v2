@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { about } from "../data/content";
-import { Linkify, Label } from "./ui";
+import { Label } from "./ui";
 
 export function About() {
   const words = about.statement.split(" ");
@@ -19,13 +19,6 @@ export function About() {
               <div className="ab-hat" key={h.title} data-reveal data-delay={i * 100}>
                 <h3>{h.title}</h3>
                 <p>{h.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="ab-facts">
-            {about.facts.map((f, i) => (
-              <div className="ab-fact" key={f.label} data-reveal data-delay={i * 100}>
-                <b>{f.value}</b><span><Linkify text={f.label} /></span>
               </div>
             ))}
           </div>
